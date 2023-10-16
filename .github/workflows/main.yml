@@ -1,9 +1,8 @@
 name: Test Automation Run
 
-on: [push]
-
-#   repository_dispatch:
-#     types: [ Test-Dispatch ]
+on: 
+  repository_dispatch:
+    types: [ Test-Dispatch ]
 
 jobs:
     test:
