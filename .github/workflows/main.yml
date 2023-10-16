@@ -1,22 +1,31 @@
 name: Test Automation Run
 
-on: 
+on:
   repository_dispatch:
-    types: [ Test-Dispatch ]
+    types: [Test-Dispatch, Test2-Dispatch]
 
 jobs:
-    test:
-      name: Test Automation Run
-      runs-on: ubuntu-20.04
-      strategy:
-        fail-fast: false
-        matrix:
-          specFile:
-            - cypress/e2e/1-getting-started/*
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-        - name: Cypress Test run
-          uses: cypress-io/github-action@v4
-          with:
-            spec: ${{ matrix.specFile }}
+  test:
+    name: Test Automation Run
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set specFile
+        id: set-spec
+        run: |
+          if [ ${{ github.event.action }} == 'Test-Dispatch' ]; then
+            echo "specFile=cypress/e2e/1-getting-started/*" >> $GITHUB_ENV
+          elif [ ${{ github.event.action }} == 'Test2-Dispatch' ]; then
+            echo "specFile=cypress/e2e/2-advanced/*" >> $GITHUB_ENV
+          else
+            echo "Invalid event action: ${{ github.event.action }}"
+            exit 1
+          fi
+        shell: bash
+      - name: Cypress Test run
+        uses: cypress-io/github-action@v4
+        with:
+          spec: ${{ env.specFile }}
