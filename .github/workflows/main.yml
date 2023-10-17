@@ -59,12 +59,12 @@ jobs:
           if [ -f "test-status.txt" ]; then
            status=$(cat test-status.txt)
            if [ "$status" == "pass" ]; then
-              body="Test Pass"
+              body="Cypress Automated Module Tests - Pass 🚀 🚀 🚀 🚀 🚀"
            else
-              body="Test Fail"
+              body="Cypress Automated Module Tests - Fail 😞 😞"
            fi
           else
-            body="Test result not found"
+            body="Test result not found ❌ ❌"
           fi
           curl -L \
           -X POST \
@@ -72,5 +72,5 @@ jobs:
           -H "Authorization: token $GITHUB_TOKEN" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           -d "{\"body\":\"$body\"}" \
-          https://api.github.com/repos/mahanadh/cypress-github-requester/issues/1/comments
+          https://api.github.com/repos/mahanadh/${{env.REPO_NAME}}/issues/${{env.PR_NUMBER}}/comments
         shell: bash
