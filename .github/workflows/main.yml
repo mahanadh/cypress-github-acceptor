@@ -1,8 +1,8 @@
 name: Test Automation Run
 
 on:
-  repository_dispatch:
-    types: [Test-Dispatch, Test2-Dispatch]
+  pull_request:
+    types: [labeled]
 
 jobs:
   test:
@@ -16,12 +16,10 @@ jobs:
       - name: Set specFile
         id: set-spec
         run: |
-          if [ ${{ github.event.action }} == 'Test-Dispatch' ]; then
+          if [ ${{ github.event.label.name }} == 'test ready' ]; then
             echo "specFile=cypress/e2e/1-getting-started/*" >> $GITHUB_ENV
-          elif [ ${{ github.event.action }} == 'Test2-Dispatch' ]; then
-            echo "specFile=cypress/e2e/2-advanced/*" >> $GITHUB_ENV
           else
-            echo "Invalid event action: ${{ github.event.action }}"
+            echo "Invalid event label: ${{ github.event.label.name }}"
             exit 1
           fi
         shell: bash
@@ -49,16 +47,13 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            if (context.payload.pull_request) {
-              const prNumber = context.payload.pull_request.number;
-              const testStatus = fs.readFileSync('test-status.txt', 'utf-8');
-              const comment = testStatus === 'pass' ? ':white_check_mark: Tests Passed' : ':x: Tests Failed';
-              github.issues.createComment({
-                issue_number: prNumber,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: comment
-              });
-            } else {
-              console.log('Not in the context of a pull request event.');
-            }
+            const prNumber = github.event.pull_request.number;
+            const testStatus = fs.readFileSync('test-status.txt', 'utf-8');
+            const comment = testStatus === 'pass' ? ':white_check_mark: Tests Passed' : ':x: Tests Failed';
+            github.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+      
