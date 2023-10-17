@@ -18,10 +18,10 @@ jobs:
       - name: Set specFile
         id: set-spec
         run: |
-          if [ ${{ github.event.label.name }} == 'test ready' ]; then
+          if [ ${{ github.event.action }} == 'Test-Dispatch' ]; then
             echo "specFile=cypress/e2e/1-getting-started/*" >> $GITHUB_ENV
           else
-            echo "Invalid event label: ${{ github.event.label.name }}"
+            echo "Invalid event action: ${{ github.event.action }}"
             exit 1
           fi
         shell: bash
@@ -49,7 +49,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const prNumber = github.event.pull_request.number;
+            const prNumber = github.event.number;
             const testStatus = fs.readFileSync('test-status.txt', 'utf-8');
             const comment = testStatus === 'pass' ? ':white_check_mark: Tests Passed' : ':x: Tests Failed';
             github.issues.createComment({

@@ -1,0 +1,79 @@
+
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        13.3.1                                                                         │
+  │ Browser:        Electron 114 (headless)                                                        │
+  │ Node Version:   v20.5.1 (/opt/homebrew/Cellar/node/20.5.1/bin/node)                            │
+  │ Specs:          1 found (todo.cy.js)                                                           │
+  │ Searched:       cypress/e2e/1-getting-started/todo.cy.js                                       │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  todo.cy.js                                                                      (1 of 1)
+
+
+  example to-do app
+    1) displays two todo items by default
+    ✓ can add new todo items (830ms)
+    ✓ can check off an item as completed (460ms)
+    with a checked task
+      ✓ can filter for uncompleted tasks (545ms)
+      ✓ can filter for completed tasks (584ms)
+      ✓ can delete all completed tasks (539ms)
+
+
+  5 passing (11s)
+  1 failing
+
+  1) example to-do app
+       displays two todo items by default:
+
+      AssertionError: Timed out retrying after 4000ms: Not enough elements found. Found '2', expected '100'.
+      + expected - actual
+
+      -2
+      +100
+      
+      at Context.eval (webpack://cypress-github-acceptor/./cypress/e2e/1-getting-started/todo.cy.js:27:28)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        6                                                                                │
+  │ Passing:      5                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  1                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     11 seconds                                                                       │
+  │ Spec Ran:     todo.cy.js                                                                       │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /Users/mahanadhikari/Personal Projects/cypress-github-acceptor/cypress/screensho    (2560x1440)
+     ts/todo.cy.js/example to-do app -- displays two todo items by default (failed).p               
+     ng                                                                                             
+
+
+================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✖  todo.cy.js                               00:11        6        5        1        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✖  1 of 1 failed (100%)                     00:11        6        5        1        -        -  
+
