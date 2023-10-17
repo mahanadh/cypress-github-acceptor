@@ -46,18 +46,18 @@ jobs:
             echo "fail" > test-status.txt
           fi
         shell: bash
-    #   - name: Create Comment
-    #     uses: actions/github-script@0.5.0
-    #     with:
-    #       github-token: ${{ secrets.GITHUB_TOKEN }}
-    #       script: |
-    #         const prNumber = ${{ github.event.number }}
-    #         const testStatus = fs.readFileSync('test-status.txt', 'utf-8');
-    #         const comment = testStatus === 'pass' ? ':white_check_mark: Tests Passed' : ':x: Tests Failed';
-    #         github.issues.createComment({
-    #           issue_number: prNumber,
-    #           owner: context.repo.owner,
-    #           repo: context.repo.repo,
-    #           body: comment
-    #         });
+      - name: Create Comment
+        uses: actions/github-script@0.5.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = ${{ github.event.number }}
+            const testStatus = fs.readFileSync('test-status.txt', 'utf-8');
+            const comment = testStatus === 'pass' ? ':white_check_mark: Tests Passed' : ':x: Tests Failed';
+            github.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
       
