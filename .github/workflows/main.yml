@@ -71,5 +71,6 @@ jobs:
           -H "Authorization: token $GITHUB_TOKEN" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           -d "{\"body\":\"$body\"}" \
-          https://api.github.com/repos/mahanadh/${{ env.REPO_NAME }}/issues/${{ env.PR_NUMBER }}/comments
+          https://api.github.com/repos/mahanadh/${{env.REPO_NAME}}/issues/${{env.PR_NUMBER}}/comments
+          echo "https://api.github.com/repos/mahanadh/${{env.REPO_NAME}}/issues/${{env.PR_NUMBER}}/comments"
         shell: bash
