@@ -16,12 +16,12 @@ jobs:
       - name: Set specFile
         id: set-spec
         run: |
-          if [ ${{ github.event.action }} == 'Test-Dispatch' ]; then
+          if [ ${{ github.event.repository_dispatch.action }} == 'Test-Dispatch' ]; then
             echo "specFile=cypress/e2e/1-getting-started/*" >> $GITHUB_ENV
-          elif [ ${{ github.event.action }} == 'Test2-Dispatch' ]; then
+          elif [ ${{ github.event.repository_dispatch.action }} == 'Test2-Dispatch' ]; then
             echo "specFile=cypress/e2e/2-advanced/*" >> $GITHUB_ENV
           else
-            echo "Invalid event action: ${{ github.event.action }}"
+            echo "Invalid event action: ${{ github.event.repository_dispatch.action }}"
             exit 1
           fi
         shell: bash
