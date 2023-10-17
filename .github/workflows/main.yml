@@ -28,15 +28,18 @@ jobs:
       - name: Run Cypress Tests
         run: | 
           npx cypress run --spec ${{ env.specFile }} > test-results.txt
-          # Capture the exit code and save it to a file for later processing
           echo $? > test-exit-code.txt
         continue-on-error: true
       - name: Process Test Results
         id: test-results
         run: |
-          exit_code=$(cat test-exit-code.txt)
-          if [ $exit_code -eq 0 ]; then
-            echo "pass" > test-status.txt
+          if [ -f "test-exit-code.txt" ]; then
+            exit_code=$(cat test-exit-code.txt)
+            if [ $exit_code -eq 0 ]; then
+              echo "pass" > test-status.txt
+            else
+              echo "fail" > test-status.txt
+            fi
           else
             echo "fail" > test-status.txt
           fi
