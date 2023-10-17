@@ -32,6 +32,8 @@ describe('example to-do app', () => {
     // and then perform an assertion with `should`.
     cy.get('.todo-list li').first().should('have.text', 'Pay electric bill')
     cy.get('.todo-list li').last().should('have.text', 'Walk the dog')
+    cy.log("EXECUTED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    cy.task('log', 'EXECUTED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
   })
 
   it('can add new todo items', () => {
