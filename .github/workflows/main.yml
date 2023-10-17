@@ -51,14 +51,14 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const fs = require('fs');
-            const prNumber = process.env.GITHUB_EVENT.number;
-            const testStatus = fs.readFileSync('test-status.txt', 'utf-8');
-            const comment = testStatus === 'pass' ? ':white_check_mark: Tests Passed' : ':x: Tests Failed';
+            var fs = require('fs');
+            var prNumber = ${{ github.event.number }}
+            var testStatus = fs.readFileSync('test-status.txt', 'utf-8');
+            var comment = testStatus === 'pass' ? ':white_check_mark: Tests Passed' : ':x: Tests Failed';
             github.issues.createComment({
-                issue_number: prNumber,
-                owner: process.env.GITHUB_REPOSITORY_OWNER,
-                repo: process.env.GITHUB_REPOSITORY,
-                body: comment
-              });
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
       
