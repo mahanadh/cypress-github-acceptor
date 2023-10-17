@@ -1,6 +1,8 @@
 name: Test Automation Run
 
 on:
+  repository_dispatch:
+    types: [Test-Dispatch, Test2-Dispatch]
   pull_request:
     types: [labeled]
 
