@@ -16,16 +16,42 @@ jobs:
       - name: Set specFile
         id: set-spec
         run: |
-          if [ ${{ github.event.action }} == 'Test-Dispatch' ]; then
+          if [ ${{ github.event.client_payload.action }} == 'Test-Dispatch' ]; then
             echo "specFile=cypress/e2e/1-getting-started/*" >> $GITHUB_ENV
-          elif [ ${{ github.event.action }} == 'Test2-Dispatch' ]; then
+          elif [ ${{ github.event.client_payload.action }} == 'Test2-Dispatch' ]; then
             echo "specFile=cypress/e2e/2-advanced/*" >> $GITHUB_ENV
           else
-            echo "Invalid event action: ${{ github.event.action }}"
+            echo "Invalid event action: ${{ github.event.client_payload.action }}"
             exit 1
           fi
         shell: bash
-      - name: Cypress Test run
-        uses: cypress-io/github-action@v4
+      - name: Run Cypress Tests
+        run: | 
+          npx cypress run --spec ${{ env.specFile }} > test-results.txt
+          # Capture the exit code and save it to a file for later processing
+          echo $? > test-exit-code.txt
+        continue-on-error: true
+      - name: Process Test Results
+        id: test-results
+        run: |
+          exit_code=$(cat test-exit-code.txt)
+          if [ $exit_code -eq 0 ]; then
+            echo "pass" > test-status.txt
+          else
+            echo "fail" > test-status.txt
+          fi
+        shell: bash
+      - name: Create Comment
+        uses: actions/github-script@0.5.0
         with:
-          spec: ${{ env.specFile }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const testStatus = fs.readFileSync('test-status.txt', 'utf-8');
+            const comment = testStatus === 'pass' ? ':white_check_mark: Tests Passed' : ':x: Tests Failed';
+            github.issues.createComment({
+              issue_number: prNumber,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
