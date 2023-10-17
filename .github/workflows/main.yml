@@ -25,6 +25,8 @@ jobs:
             exit 1
           fi
         shell: bash
+      - name: Install Cypress
+        run: npx cypress install
       - name: Run Cypress Tests
         run: | 
           npx cypress run --spec ${{ env.specFile }} 
