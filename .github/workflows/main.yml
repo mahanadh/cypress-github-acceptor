@@ -19,7 +19,7 @@ jobs:
         id: set-spec
         run: |
           if [ ${{ github.event.action }} == 'Test-Dispatch' ]; then
-            echo "specFile=cypress/e2e/1-getting-started/todo.cy.js" >> $GITHUB_ENV
+            echo "specFile=cypress/e2e/1-getting-started/todo.cy.js cypress/e2e/2-advanced/test.cy.js" >> $GITHUB_ENV
           else
             echo "Invalid event action: ${{ github.event.action }}"
             exit 1
